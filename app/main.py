@@ -1,6 +1,14 @@
-def main():
-    print("Hello from document-intelligence-api!")
+from fastapi import FastAPI
+from app.models import AnalyzeRequest
+
+app = FastAPI()
 
 
-if __name__ == "__main__":
-    main()
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
+@app.post("/analyze")
+async def analyze(request: AnalyzeRequest):
+    return {"word_count": len(request.text.split())}
