@@ -6,7 +6,8 @@ app = FastAPI()
 
 @app.get("/health")
 async def health():
-return {"status": "healthy"}
+    return {"status": "healthy"}
+
 
 @app.post("/analyze")
 async def analyze(request: AnalyzeRequest):
