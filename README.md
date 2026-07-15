@@ -1,257 +1,199 @@
-# Document Intelligence API
+# 📄 Document Intelligence API
 
-A production-oriented FastAPI project built to learn the fundamentals of backend development for AI applications. This project focuses on request handling, validation, file uploads, and API documentation before introducing LLMs, RAG, or document parsing.
-
----
-
-## Purpose
-
-Build a solid FastAPI foundation for future AI systems by understanding how APIs receive, validate, and process client requests.
-
----
-
-## Problem Solved
-
-AI applications require a reliable backend that can:
-
-- Accept client requests
-- Validate incoming data
-- Receive uploaded documents
-- Return structured JSON responses
-- Expose well-documented APIs
-
-This project implements these core backend capabilities.
+A production-style REST API built with **FastAPI** and containerized using **Docker**. The project demonstrates modern backend engineering practices including dependency management with `uv`, containerization, Docker Compose, and reproducible development environments.
 
 ---
 
 ## Features
 
+- FastAPI REST API
 - Health check endpoint
-- Request validation using Pydantic
-- Automatic OpenAPI documentation
+- Text analysis endpoint
+- File upload endpoint
 - Interactive Swagger UI
-- File upload support
-- File metadata extraction
-- File size calculation
-- File byte preview
+- Dockerized application
+- Docker Compose support
+- Reproducible dependency management using `uv`
 
 ---
 
-## API Endpoints
+## Live Deployment
 
-### GET `/health`
+API Base URL:
+https://document-intelligence-api-production-d8dc.up.railway.app
 
-Checks whether the API is running.
+### Endpoints
 
-#### Response
-
-```json
-{
-    "status": "healthy"
-}
-```
+- `/health`
+- `/docs`
+- `/analyze`
+- `/upload`
 
 ---
 
-### POST `/analyze`
+## Tech Stack
 
-Accepts text and returns its word count.
-
-#### Request
-
-```json
-{
-    "text": "FastAPI makes backend development simple."
-}
-```
-
-#### Response
-
-```json
-{
-    "word_count": 5
-}
-```
-
----
-
-### POST `/upload`
-
-Uploads a document and returns metadata.
-
-#### Response
-
-```json
-{
-    "filename": "sample.pdf",
-    "content_type": "application/pdf",
-    "size_in_bytes": 25341,
-    "preview": "b'%PDF-1.7...'"
-}
-```
+- Python 3.11
+- FastAPI
+- Uvicorn
+- Pydantic
+- Docker
+- Docker Compose
+- uv
 
 ---
 
 ## Project Structure
 
-```
+```text
 document-intelligence-api/
 │
 ├── app/
-│   ├── __init__.py
 │   ├── main.py
-│   └── models.py
+│   └── ...
 │
-├── .venv/
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
 ├── pyproject.toml
 ├── uv.lock
-├── README.md
-└── .gitignore
+└── README.md
 ```
 
 ---
 
-## Technologies Used
+## API Endpoints
 
-- Python 3.13
-- FastAPI
-- Uvicorn
-- Pydantic
-- python-multipart
-- uv
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | `/health` | Health check |
+| POST | `/analyze` | Analyze text |
+| POST | `/upload` | Upload a document |
 
 ---
 
-## How to Run
+## Running Locally
 
-### Clone Repository
+### Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/diwakar7619/document-intelligence-api.git
 cd document-intelligence-api
 ```
 
-### Install Dependencies
+### Install dependencies
 
 ```bash
 uv sync
 ```
 
-### Start Development Server
+### Start the API
 
 ```bash
 uv run uvicorn app.main:app --reload
 ```
 
----
-
-## API Documentation
-
-Swagger UI
+Visit:
 
 ```
-http://127.0.0.1:8000/docs
-```
-
-OpenAPI Specification
-
-```
-http://127.0.0.1:8000/openapi.json
+http://localhost:8000/docs
 ```
 
 ---
 
-## Example Requests
+# Running with Docker
 
-### Health Check
+Build the image
 
 ```bash
-curl http://127.0.0.1:8000/health
+docker build -t document-intelligence-api:1.0 .
 ```
 
----
-
-### Analyze Text
+Run the container
 
 ```bash
-curl -X POST \
-http://127.0.0.1:8000/analyze \
--H "Content-Type: application/json" \
--d "{\"text\":\"Hello FastAPI\"}"
+docker run -p 8000:8000 document-intelligence-api:1.0
+```
+
+Open
+
+```
+http://localhost:8000/docs
 ```
 
 ---
 
-### Upload File
+# Running with Docker Compose
+
+Start
 
 ```bash
-curl -X POST \
-http://127.0.0.1:8000/upload \
--F "file=@sample.pdf"
+docker compose up
+```
+
+Stop
+
+```bash
+docker compose down
 ```
 
 ---
 
-## Engineering Concepts Learned
+## Docker Architecture
 
-- FastAPI application object
-- ASGI architecture
-- Uvicorn server
-- Route handlers
-- HTTP GET vs POST
-- Decorators
-- Request lifecycle
-- Pydantic models
-- Automatic request validation
-- JSON serialization
-- Multipart form-data
-- UploadFile
-- Async route handlers
-- Swagger/OpenAPI generation
+```
+Client
+    │
+    ▼
+Docker Container
+    │
+    ▼
+FastAPI
+    │
+    ▼
+Business Logic
+```
 
 ---
 
-## Key Learnings
+## Engineering Concepts Demonstrated
 
-- FastAPI automatically generates OpenAPI documentation.
-- Pydantic validates incoming request data without manual checks.
-- UploadFile efficiently handles uploaded files.
-- FastAPI converts Python dictionaries into JSON responses.
-- Async endpoints are well suited for I/O-bound AI workloads.
-- Clear separation between routes and data models improves maintainability.
+- Docker Images
+- Docker Containers
+- Layer Caching
+- Build Context
+- Docker Compose
+- Port Mapping
+- Environment Isolation
+- Reproducible Builds
+- Dependency Management with `uv`
+
+---
+
+## Lessons Learned
+
+- Containerize applications for consistent execution across environments.
+- Optimize Dockerfiles using layer caching.
+- Use Docker Compose to manage application services.
+- Keep dependencies reproducible with lock files.
+- Separate development environment from runtime environment.
 
 ---
 
 ## Future Improvements
 
-- PDF text extraction
-- DOCX support
-- Document summarization
-- Named entity extraction
-- OCR integration
-- Embedding generation
-- Vector database integration
-- Retrieval-Augmented Generation (RAG)
-- LLM-powered document analysis
-- Authentication and authorization
+- CI/CD pipeline
+- Multi-stage Docker builds
+- Non-root containers
+- Health checks
+- Railway deployment
+- Authentication
+- Database integration
 
 ---
 
-## Repository Goals
+## Author
 
-This project is part of a project-first AI Engineering curriculum.
+**Pratham Diwakar**
 
-The objective is not only to build a working API, but also to understand:
-
-- every file,
-- every dependency,
-- every engineering decision,
-- and every architectural trade-off,
-
-so the entire application can be rebuilt from scratch without referring to the source code.
-
----
-
-## License
-
-This project is intended for educational and portfolio purposes.
+GitHub: https://github.com/diwakar7619
